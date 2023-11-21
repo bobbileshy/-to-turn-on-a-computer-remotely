@@ -1,0 +1,19 @@
+import socket
+import binascii
+
+def wake_on_lan(macaddress):
+    # Construct the magic packet
+    data = b'FFFFFFFFFFFF' + (binascii.unhexlify(macaddress) * 16)
+
+    # Create a UDP socket
+    soc = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+    # Set socket options to broadcast
+    soc.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+
+    # Send the magic packet
+    soc.sendto(data, ('<broadcast>', 9))
+
+# Replace '00:11:22:33:44:55' with the MAC address of your target computer
+mac_address = '001122334455'
+wake_on_lan(mac_address)
